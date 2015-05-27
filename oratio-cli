@@ -69,8 +69,7 @@ def logout():
 
 
 def create():
-    name = input("Module name: ")
-    desc = input("Module description: ")
+    id_ = int(input("Module ID: "))
     out_name = input("Output file path: ")
     if os.path.isfile(out_name):
         yn = input("Output file already exists. Overwrite? (y/n) ")
@@ -83,7 +82,7 @@ def create():
             print("Invalid input, assuming 'n'.")
             print("File will not be overwritten. Stopped command execution.")
             return
-    data = { "module_name": name, "module_desc": desc }
+    data = {"id": id_}
     with open(out_name, "w") as f:
         json.dump(data, f)
     print("Module JSON file written to " + out_name)
