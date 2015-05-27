@@ -1,0 +1,102 @@
+#!/usr/bin/python3
+
+import sys
+import getpass
+import os
+import json
+import requests  # requires the requests library to be installed
+import appdirs  # requires the appdirs library to be installed
+
+
+def main():
+    if len(sys.argv) < 2:
+        interactive()
+        return
+    cmd = sys.argv[1]
+    args = sys.argv[2:]
+    exec_cmd(cmd, args)
+
+
+def interactive():
+    print("Interactive Oratio Command Line Interface")
+    while True:
+        inp = input(">>> ")
+        parts = inp.split(" ")
+        cmd = parts[0]
+        args = parts[1:]
+        exec_cmd(cmd, args)
+
+
+def exec_cmd(cmd, args):
+    if cmd == "login":
+        login()
+    elif cmd == "logout":
+        logout()
+    elif cmd == "create":
+        create()
+    elif cmd == "upload":
+        upload(args)
+    elif cmd == "quit":
+        sys.exit(0)
+
+
+def login():
+    email = input("Login email: ")
+    password = getpass.getpass("Password: ")
+    resp = requests.post("https://accounts.oratio.io/login")
+    # TODO: fetch session ID from response when the login page is implemented
+    session_id = 1
+    data_dir = appdirs.user_data_dir("OratioCLI", "OratioIO")
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+    filename = os.path.join(data_dir, "login_session.txt")
+    with open(filename, "w") as f:
+        f.write(str(session_id))
+    print("Logged in successfully.")
+
+
+def logout():
+    data_dir = appdirs.user_data_dir("OratioCLI", "OratioIO")
+    filename = os.path.join(data_dir, "login_session.txt")
+    if not os.path.isfile(filename):
+        print("Not logged in.")
+        return
+    with open(filename, "r") as f:
+        session_id = int(f.read())
+    requests.post("https://accounts.oratio.io/logout", {"id": session_id})
+    os.remove(filename)
+    print("Logged out successfully.")
+
+
+def create():
+    name = input("Module name: ")
+    desc = input("Module description: ")
+    out_name = input("Output file path: ")
+    if os.path.isfile(out_name):
+        yn = input("Output file already exists. Overwrite? (y/n) ")
+        if yn == "y" or yn == "Y":
+            print("File will be overwritten.")
+        elif yn == "n" or yn == "N":
+            print("File will not be overwritten. Stopped command execution.")
+            return
+        else:
+            print("Invalid input, assuming 'n'.")
+            print("File will not be overwritten. Stopped command execution.")
+            return
+    data = { "module_name": name, "module_desc": desc }
+    with open(out_name, "w") as f:
+        json.dump(data, f)
+    print("Module JSON file written to " + out_name)
+
+
+def upload(args):
+    if len(args) < 1:
+        json_file = input("Specify a module JSON file: ")
+    else:
+        json_file = args[0]
+    print("Uploading " + json_file)
+    # TODO: send upload request when upload page is ready
+    print("Module uploaded.")
+
+
+main()
