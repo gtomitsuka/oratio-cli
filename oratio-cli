@@ -28,7 +28,9 @@ def interactive():
 
 
 def exec_cmd(cmd, args):
-    if cmd == "login":
+    if cmd == "init":
+        init(args)
+    elif cmd == "login":
         login()
     elif cmd == "logout":
         logout()
@@ -38,6 +40,33 @@ def exec_cmd(cmd, args):
         upload(args)
     elif cmd == "quit":
         sys.exit(0)
+
+
+def init(args):
+    if len(args) == 0:
+        module_id = input("Module ID: ")
+    elif len(args) == 1:
+        module_id = args[0]
+    else:
+        print("Error: 1 argument expected, too many provided.")
+        return
+    if os.path.isfile("module.json"):
+        yn = input("Warning: module.json already exists. Overwrite? (y/n) ").lower()
+        if yn == "n":
+            print("module.json won't be overwritten")
+            return
+        elif yn != "n" and yn != "y":
+            print("Error: y/n expected, invalid input found.")
+            return
+    json_data = requests.get("http://dev.oratio.io/package-manager/info?id=" + module_id)
+    if "error" in json_data.json():
+        print("Error: error message in JSON response.")
+        print(json_data.text)
+        return
+    print("Writing to " + os.path.join(os.getcwd(), "module.json"))
+    with open("module.json", "w") as f:
+        f.write(json_data.text)
+    print("Done.")
 
 
 # Obsolete commands can be found below this line.
