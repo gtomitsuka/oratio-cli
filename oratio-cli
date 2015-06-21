@@ -45,10 +45,12 @@ def exec_cmd(cmd, args):
 def init(args):
     if len(args) == 0:
         module_id = input("Module ID: ")
-    elif len(args) == 1:
+        entry_point = input("Entry point: ")
+    elif len(args) == 2:
         module_id = args[0]
+        entry_point = args[1]
     else:
-        print("Error: 1 argument expected, too many provided.")
+        print("Error: 0 or 2 arguments expected.")
         return
     if os.path.isfile("module.json"):
         yn = input("Warning: module.json already exists. Overwrite? (y/n) ").lower()
@@ -65,7 +67,9 @@ def init(args):
         return
     print("Writing to " + os.path.join(os.getcwd(), "module.json"))
     with open("module.json", "w") as f:
-        f.write(json_data.text)
+        new_json = json_data.json()
+        new_json["entry_point"] = entry_point
+        json.dump(new_json, f)
     print("Done.")
 
 
