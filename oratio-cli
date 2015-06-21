@@ -40,7 +40,14 @@ def exec_cmd(cmd, args):
         sys.exit(0)
 
 
+# Obsolete commands can be found below this line.
+# They will get removed soon, when the other,
+# non-obsolete functions have been implemented.
+
+
 def login():
+    print("Obsolete command.")
+    return
     email = input("Login email: ")
     password = getpass.getpass("Password: ")
     resp = requests.post("https://accounts.oratio.io/login")
@@ -56,6 +63,8 @@ def login():
 
 
 def logout():
+    print("Obsolete command.")
+    return
     data_dir = appdirs.user_data_dir("OratioCLI", "OratioIO")
     filename = os.path.join(data_dir, "login_session.txt")
     if not os.path.isfile(filename):
@@ -69,6 +78,7 @@ def logout():
 
 
 def create():
+    print("Obsolete command.")
     id_ = int(input("Module ID: "))
     out_name = input("Output file path: ")
     if os.path.isfile(out_name):
@@ -89,6 +99,8 @@ def create():
 
 
 def upload(args):
+    print("Obsolete command.")
+    return
     if len(args) < 1:
         json_file = input("Specify a module JSON file: ")
     else:
