@@ -4,6 +4,7 @@ import sys
 import getpass
 import os
 import json
+import re
 import requests  # requires the requests library to be installed
 import appdirs  # requires the appdirs library to be installed
 
@@ -30,6 +31,8 @@ def interactive():
 def exec_cmd(cmd, args):
     if cmd == "init":
         init(args)
+    elif cmd == "status":
+        status()
     elif cmd == "login":
         login()
     elif cmd == "logout":
@@ -71,6 +74,34 @@ def init(args):
         new_json["entry_point"] = entry_point
         json.dump(new_json, f)
     print("Done.")
+
+
+def status():
+    print("Checking .oratio-ignore file...")
+    ignored = []
+    if not os.path.isfile(".oratio-ignore"):
+        print("No .oratio-ignore file found.")
+    else:
+        print(".oratio-ignore file found.")
+        with open(".oratio-ignore", "r") as f:
+            for line in f:
+                ignored.append(line.strip())
+    print(os.linesep)
+    filepaths = []
+    for root, dirs, files in os.walk("."):
+        for name in files:
+            relative_path = os.path.join(root, name)
+            should_be_listed = True
+            for ig in ignored:
+                if re.compile(re.escape(ig).replace('\\*', '.*')).search(relative_path):
+                    should_be_listed = False
+                    break
+            if should_be_listed:
+                filepaths.append(relative_path)
+    for filepath in filepaths:
+        print(filepath)
+        
+    
 
 
 # Obsolete commands can be found below this line.
