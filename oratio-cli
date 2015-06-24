@@ -87,16 +87,9 @@ def status():
         print(".oratio-ignore file found.")
         parser.load(".oratio-ignore")
     print(os.linesep)
-    filepaths = []
-    for root, dirs, files in os.walk("."):
-        for name in files:
-            relative_path = os.path.join(root, name)
-            if not parser.should_be_ignored(relative_path):
-                filepaths.append(relative_path)
+    filepaths = parser.list_files(".")[0]
     for filepath in filepaths:
         print(filepath)
-        
-    
 
 
 # Obsolete commands can be found below this line.
