@@ -37,6 +37,10 @@ def exec_cmd(cmd, args):
         status()
     elif cmd == "ignored":
         ignored()
+    elif cmd == "auth":
+        auth()
+    elif cmd == "rmsession":
+        rmsession()
     elif cmd == "login":
         login()
     elif cmd == "logout":
@@ -107,6 +111,25 @@ def ignored():
     filepaths = parser.list_files(".")[1]
     for filepath in filepaths:
         print(filepath)
+
+
+def auth():
+    access_token = input("Enter Oratio.io OAuth access token: ")
+    # TODO: check whether the token is valid
+    home_dir = os.path.expanduser("~")
+    with open(os.path.join(home_dir, ".oratio-session"), "w") as f:
+        f.write(access_token)
+    print("Authenticated and access token stored in ~/.oratio-session")
+
+
+def rmsession():
+    home_dir = os.path.expanduser("~")
+    session_file = os.path.join(home_dir, ".oratio-session")
+    if os.path.isfile(session_file):
+        os.remove(session_file)
+        print("OAuth session removed.")
+    else:
+        print("No OAuth session found.")
 
 
 # Obsolete commands can be found below this line.
