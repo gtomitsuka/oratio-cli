@@ -35,6 +35,8 @@ def exec_cmd(cmd, args):
         init(args)
     elif cmd == "status":
         status()
+    elif cmd == "ignored":
+        ignored()
     elif cmd == "login":
         login()
     elif cmd == "logout":
@@ -88,6 +90,21 @@ def status():
         parser.load(".oratio-ignore")
     print(os.linesep)
     filepaths = parser.list_files(".")[0]
+    for filepath in filepaths:
+        print(filepath)
+
+
+def ignored():
+    print("Checking .oratio-ignore file...")
+    parser = OratioIgnoreParser()
+    if not os.path.isfile(".oratio-ignore"):
+        print("No .oratio-ignore file found.")
+        return
+    print(".oratio-ignore file found.")
+    print("Ignored files:")
+    parser.load(".oratio-ignore")
+    print(os.linesep)
+    filepaths = parser.list_files(".")[1]
     for filepath in filepaths:
         print(filepath)
 
