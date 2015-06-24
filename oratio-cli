@@ -8,6 +8,8 @@ import re
 import requests  # requires the requests library to be installed
 import appdirs  # requires the appdirs library to be installed
 
+from oratioignoreparser import OratioIgnoreParser
+
 
 def main():
     if len(sys.argv) < 2:
@@ -78,25 +80,18 @@ def init(args):
 
 def status():
     print("Checking .oratio-ignore file...")
-    ignored = []
+    parser = OratioIgnoreParser()
     if not os.path.isfile(".oratio-ignore"):
         print("No .oratio-ignore file found.")
     else:
         print(".oratio-ignore file found.")
-        with open(".oratio-ignore", "r") as f:
-            for line in f:
-                ignored.append(line.strip())
+        parser.load(".oratio-ignore")
     print(os.linesep)
     filepaths = []
     for root, dirs, files in os.walk("."):
         for name in files:
             relative_path = os.path.join(root, name)
-            should_be_listed = True
-            for ig in ignored:
-                if re.compile(re.escape(ig).replace('\\*', '.*')).search(relative_path):
-                    should_be_listed = False
-                    break
-            if should_be_listed:
+            if not parser.should_be_ignored(relative_path):
                 filepaths.append(relative_path)
     for filepath in filepaths:
         print(filepath)
