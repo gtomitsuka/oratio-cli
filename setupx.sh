@@ -53,8 +53,8 @@ if pip -V | grep -q "(python 2"
 fi 
 
 echo "*** Now installing the latest version of module "appdirs" for Python 3..."
-pip3 -q install appdirs
+/usr/local/bin/pip3 -q install appdirs
 echo "*** Now installing the latest version of module "requests" for Python 3..."
-pip3 -q install requests --upgrade
+/usr/local/bin/pip3 -q install requests --upgrade
 
 echo "*** FINISHED! You are now ready to use oratio-cli!"
