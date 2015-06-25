@@ -9,7 +9,7 @@ import requests  # requires the requests library to be installed
 import appdirs  # requires the appdirs library to be installed
 
 from oratioignoreparser import OratioIgnoreParser
-
+import oratiomodulezipper
 
 def main():
     if len(sys.argv) < 2:
@@ -41,6 +41,8 @@ def exec_cmd(cmd, args):
         auth()
     elif cmd == "rmsession":
         rmsession()
+    elif cmd == "compress":
+        compress()
     elif cmd == "login":
         login()
     elif cmd == "logout":
@@ -130,6 +132,22 @@ def rmsession():
         print("OAuth session removed.")
     else:
         print("No OAuth session found.")
+
+
+def compress():
+    if os.path.isfile("oratiomodule.tar.gz"):
+        yn = input("oratiomodule.tar.gz already exists. Overwrite? (y/n) ").lower()
+        if yn == "n":
+            print("Compression cancelled.")
+            return
+        elif yn != "n" and yn != "y":
+            print("Invalid input. Stopping.")
+            return
+    parser = OratioIgnoreParser()
+    if os.path.isfile(".oratio-ignore"):
+        parser.load(".oratio-ignore")
+    oratiomodulezipper.compress_module(parser.list_files(".")[0], "oratiomodule.tar.gz")
+    print("Compressed to oratiomodule.tar.gz")
 
 
 # Obsolete commands can be found below this line.
