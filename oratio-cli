@@ -70,7 +70,7 @@ def init(args):
         if yn == "n":
             print("module.json won't be overwritten")
             return
-        elif yn != "n" and yn != "y":
+        elif yn != "y":
             print("Error: y/n expected, invalid input found.")
             return
     json_data = requests.get("http://dev.oratio.io/package-manager/info?id=" + module_id)
@@ -110,23 +110,20 @@ def ignored():
     print("Ignored files:")
     parser.load(".oratio-ignore")
     print(os.linesep)
-    filepaths = parser.list_files(".")[1]
-    for filepath in filepaths:
+    for filepath in parser.list_files(".")[1]:
         print(filepath)
 
 
 def auth():
     access_token = input("Enter Oratio.io OAuth access token: ")
     # TODO: check whether the token is valid
-    home_dir = os.path.expanduser("~")
-    with open(os.path.join(home_dir, ".oratio-session"), "w") as f:
+    with open(os.path.join(os.path.expanduser("~"), ".oratio-session"), "w") as f:
         f.write(access_token)
     print("Authenticated and access token stored in ~/.oratio-session")
 
 
 def rmsession():
-    home_dir = os.path.expanduser("~")
-    session_file = os.path.join(home_dir, ".oratio-session")
+    session_file = os.path.join(os.path.expanduser("~"), ".oratio-session")
     if os.path.isfile(session_file):
         os.remove(session_file)
         print("OAuth session removed.")
@@ -140,7 +137,7 @@ def compress():
         if yn == "n":
             print("Compression cancelled.")
             return
-        elif yn != "n" and yn != "y":
+        elif yn != "y":
             print("Invalid input. Stopping.")
             return
     parser = OratioIgnoreParser()
