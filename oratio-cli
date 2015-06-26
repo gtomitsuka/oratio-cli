@@ -140,10 +140,7 @@ def compress():
         elif yn != "y":
             print("Invalid input. Stopping.")
             return
-    parser = OratioIgnoreParser()
-    if os.path.isfile(".oratio-ignore"):
-        parser.load(".oratio-ignore")
-    oratiomodulezipper.compress_module(parser.list_files(".")[0], "oratiomodule.tar.gz")
+    oratiomodulezipper.compress_module(".")
     print("Compressed to oratiomodule.tar.gz")
 
 
