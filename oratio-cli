@@ -45,14 +45,6 @@ def exec_cmd(cmd, args):
         compress()
     elif cmd == "publish":
         publish()
-    elif cmd == "login":
-        login()
-    elif cmd == "logout":
-        logout()
-    elif cmd == "create":
-        create()
-    elif cmd == "upload":
-        upload(args)
     elif cmd == "quit":
         sys.exit(0)
 
@@ -162,76 +154,6 @@ def publish():
                  headers={"Authorization": "Bearer " + access_token},
                  files={"module": open("oratiomodule.tar.gz", "rb")})
     print("Finished!")
-
-
-# Obsolete commands can be found below this line.
-# They will get removed soon, when the other,
-# non-obsolete functions have been implemented.
-
-
-def login():
-    print("Obsolete command.")
-    return
-    email = input("Login email: ")
-    password = getpass.getpass("Password: ")
-    resp = requests.post("https://accounts.oratio.io/login")
-    # TODO: fetch session ID from response when the login page is implemented
-    session_id = 1
-    data_dir = appdirs.user_data_dir("OratioCLI", "OratioIO")
-    if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
-    filename = os.path.join(data_dir, "login_session.txt")
-    with open(filename, "w") as f:
-        f.write(str(session_id))
-    print("Logged in successfully.")
-
-
-def logout():
-    print("Obsolete command.")
-    return
-    data_dir = appdirs.user_data_dir("OratioCLI", "OratioIO")
-    filename = os.path.join(data_dir, "login_session.txt")
-    if not os.path.isfile(filename):
-        print("Not logged in.")
-        return
-    with open(filename, "r") as f:
-        session_id = int(f.read())
-    requests.post("https://accounts.oratio.io/logout", {"id": session_id})
-    os.remove(filename)
-    print("Logged out successfully.")
-
-
-def create():
-    print("Obsolete command.")
-    id_ = int(input("Module ID: "))
-    out_name = input("Output file path: ")
-    if os.path.isfile(out_name):
-        yn = input("Output file already exists. Overwrite? (y/n) ")
-        if yn == "y" or yn == "Y":
-            print("File will be overwritten.")
-        elif yn == "n" or yn == "N":
-            print("File will not be overwritten. Stopped command execution.")
-            return
-        else:
-            print("Invalid input, assuming 'n'.")
-            print("File will not be overwritten. Stopped command execution.")
-            return
-    data = {"id": id_}
-    with open(out_name, "w") as f:
-        json.dump(data, f)
-    print("Module JSON file written to " + out_name)
-
-
-def upload(args):
-    print("Obsolete command.")
-    return
-    if len(args) < 1:
-        json_file = input("Specify a module JSON file: ")
-    else:
-        json_file = args[0]
-    print("Uploading " + json_file)
-    # TODO: send upload request when upload page is ready
-    print("Module uploaded.")
 
 
 main()
