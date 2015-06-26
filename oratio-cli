@@ -43,6 +43,8 @@ def exec_cmd(cmd, args):
         rmsession()
     elif cmd == "compress":
         compress()
+    elif cmd == "publish":
+        publish()
     elif cmd == "login":
         login()
     elif cmd == "logout":
@@ -142,6 +144,24 @@ def compress():
             return
     oratiomodulezipper.compress_module(".")
     print("Compressed to oratiomodule.tar.gz")
+
+
+def publish():
+    if not os.path.isfile("oratiomodule.tar.gz"):
+        print("FATAL: oratiomodule.tar.gz not found in working directory.")
+        return
+    session_file = os.path.join(os.path.expanduser("~"), ".oratio-session")
+    if not os.path.isfile(session_file):
+        print("FATAL: no .oratio-session found. Please run the auth command.")
+        return
+    with open(session_file, "r") as f:
+        access_token = f.read()
+    # TODO: validate access token when server page exists
+    print("Upload started.")
+    requests.put("http://dev.oratio.io/package-manager/upload",
+                 headers={"Authorization": "Bearer " + access_token},
+                 files={"module": open("oratiomodule.tar.gz", "rb")})
+    print("Finished!")
 
 
 # Obsolete commands can be found below this line.
