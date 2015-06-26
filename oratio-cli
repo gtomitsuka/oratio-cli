@@ -6,7 +6,6 @@ import os
 import json
 import re
 import requests  # requires the requests library to be installed
-import appdirs  # requires the appdirs library to be installed
 
 from oratioignoreparser import OratioIgnoreParser
 import oratiomodulezipper

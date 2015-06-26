@@ -52,8 +52,6 @@ if pip -V | grep -q "(python 2"
         upgrade_pip3
 fi 
 
-echo "*** Now installing the latest version of module "appdirs" for Python 3..."
-/usr/local/bin/pip3 -q install appdirs --user
 echo "*** Now installing the latest version of module "requests" for Python 3..."
 /usr/local/bin/pip3 -q install requests --upgrade --user
 

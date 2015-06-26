@@ -6,6 +6,5 @@ CLI for Marketplace Uploads. It requires Python 3.x.
 Oratio CLI requires the following dependencies:
 
  - `requests` - http://docs.python-requests.org/en/latest/
- - `appdirs` - https://pypi.python.org/pypi/appdirs/1.4.0
 
 You can install these by running `setup.sh`.
