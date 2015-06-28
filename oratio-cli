@@ -9,6 +9,7 @@ import requests  # requires the requests library to be installed
 
 from oratioignoreparser import OratioIgnoreParser
 import oratiomodulezipper
+from clihelp import clihelp
 
 def main():
     if len(sys.argv) < 2:
@@ -44,6 +45,8 @@ def exec_cmd(cmd, args):
         compress()
     elif cmd == "publish":
         publish()
+    elif cmd == "help":
+        cli_help(args)
     elif cmd == "quit":
         sys.exit(0)
 
@@ -153,6 +156,17 @@ def publish():
                  headers={"Authorization": "Bearer " + access_token},
                  files={"module": open("oratiomodule.tar.gz", "rb")})
     print("Finished!")
+
+
+def cli_help(args):
+    if len(args) != 1:
+        print("Error: 1 argument expected")
+        return
+    if args[0] in clihelp:
+        print(clihelp[args[0]])
+    else:
+        print("No help entry found.")
+
 
 
 main()
