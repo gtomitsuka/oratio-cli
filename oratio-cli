@@ -141,11 +141,11 @@ def publish():
 
 
 def cli_help(args):
-    if len(args) != 1:
+    if len(args) == 0:
         print("Command list:")
         print(os.linesep.join(sorted(list(command_list.keys()))))
         return
-    if args[0] in clihelp:
+    elif len(args) == 1 and args[0] in clihelp:
         print(clihelp[args[0]])
     else:
         print("No help entry found.")
