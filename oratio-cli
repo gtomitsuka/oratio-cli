@@ -144,7 +144,6 @@ def cli_help(args):
     if len(args) == 0:
         print("Command list:")
         print(os.linesep.join(sorted(list(command_list.keys()))))
-        return
     elif len(args) == 1 and args[0] in clihelp:
         print(clihelp[args[0]])
     else:
