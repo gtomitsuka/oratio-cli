@@ -142,7 +142,8 @@ def publish():
 
 def cli_help(args):
     if len(args) != 1:
-        print("Error: 1 argument expected")
+        print("Command list:")
+        print(os.linesep.join(sorted(list(command_list.keys()))))
         return
     if args[0] in clihelp:
         print(clihelp[args[0]])
