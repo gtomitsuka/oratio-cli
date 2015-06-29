@@ -1,8 +1,8 @@
 clihelp = {
-    "init": """Takes the ID of a module, downloads the data from the Oratio
-server and puts it in the working directory as module.json.
+    "init": """Takes the ID of a module and the entry points, downloads the data
+from the Oratio server and puts it in the working directory as module.json.
 
-oratio-cli init [module_id]
+oratio-cli init [module_id entry_point]
 
 In case module_id is not provided as an argument, it has to be inputted through
 STDIN.""",
