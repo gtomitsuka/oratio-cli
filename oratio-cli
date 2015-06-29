@@ -31,24 +31,14 @@ def interactive():
 
 
 def exec_cmd(cmd, args):
-    if cmd == "init":
-        init(args)
-    elif cmd == "status":
-        status()
-    elif cmd == "ignored":
-        ignored()
-    elif cmd == "auth":
-        auth()
-    elif cmd == "rmsession":
-        rmsession()
-    elif cmd == "compress":
-        compress()
-    elif cmd == "publish":
-        publish()
-    elif cmd == "help":
-        cli_help(args)
-    elif cmd == "quit":
-        sys.exit(0)
+    if cmd in command_list:
+        cmd_func = command_list[cmd][0]
+        if command_list[cmd][1] == 0:
+            cmd_func()
+        else:
+            cmd_func(args)
+    else:
+        print("Command not found.")
 
 
 def init(args):
@@ -166,6 +156,17 @@ def cli_help(args):
         print(clihelp[args[0]])
     else:
         print("No help entry found.")
+
+
+command_list = {"init": (init, 1),
+                "status": (status, 0),
+                "ignored": (ignored, 0),
+                "auth": (auth, 0),
+                "rmsession": (rmsession, 0),
+                "compress": (compress, 0),
+                "publish": (publish, 0),
+                "help": (cli_help, 1),
+                "quit": (sys.exit, 0)}
 
 
 
