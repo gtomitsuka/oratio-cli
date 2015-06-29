@@ -11,14 +11,6 @@ from oratioignoreparser import OratioIgnoreParser
 import oratiomodulezipper
 from clihelp import clihelp
 
-def main():
-    if len(sys.argv) < 2:
-        interactive()
-        return
-    cmd = sys.argv[1]
-    args = sys.argv[2:]
-    exec_cmd(cmd, args)
-
 
 def interactive():
     print("Interactive Oratio Command Line Interface")
@@ -168,6 +160,9 @@ command_list = {"init": (init, 1),
                 "help": (cli_help, 1),
                 "quit": (sys.exit, 0)}
 
-
-
-main()
+if len(sys.argv) < 2:
+    interactive()
+else:
+    cmd = sys.argv[1]
+    args = sys.argv[2:]
+    exec_cmd(cmd, args)
