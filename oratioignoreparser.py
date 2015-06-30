@@ -14,6 +14,7 @@ class OratioIgnoreParser():
         self.ignored_paths.extend(ignored_paths_list)
 
     def should_be_ignored(self, filepath):
+        filepath = filepath.replace("\\", "/")
         for ig in self.ignored_paths:
             compiled_regex = re.compile(
                 '^' + re.escape(ig).replace('\\*', '.*') + '$'

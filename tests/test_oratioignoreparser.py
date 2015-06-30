@@ -23,3 +23,10 @@ def test_oratioignoreparser_wildcards():
     assert parser.should_be_ignored("ignore.svg")
     assert parser.should_be_ignored("ignore/ignore/ignore/me.txt")
     assert not parser.should_be_ignored("ignored1.svg")
+
+
+def test_oratioignoreparser_backslashes():
+    rules = ["please/ignore/me.txt"]
+    parser = OratioIgnoreParser()
+    parser.extend_list(rules)
+    assert parser.should_be_ignored("please\\ignore\\me.txt")
