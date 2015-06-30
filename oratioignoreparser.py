@@ -10,6 +10,9 @@ class OratioIgnoreParser():
         with open(oratio_ignore_path, "r") as f:
             self.ignored_paths.extend([line.strip() for line in f])
 
+    def extend_list(self, ignored_paths_list):
+        self.ignored_paths.extend(ignored_paths_list)
+
     def should_be_ignored(self, filepath):
         for ig in self.ignored_paths:
             compiled_regex = re.compile(
