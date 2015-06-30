@@ -1,5 +1,5 @@
 # oratio-cli
-[![https://travis-ci.org/oratio-io/oratio-cli.svg]](https://travis-ci.org/oratio-io/oratio-cli)
+[![Travis build status](https://travis-ci.org/oratio-io/oratio-cli.svg)](https://travis-ci.org/oratio-io/oratio-cli)
 
 CLI for Marketplace Uploads. It requires Python 3.x.
 
