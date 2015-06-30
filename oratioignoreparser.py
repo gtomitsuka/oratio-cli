@@ -12,8 +12,11 @@ class OratioIgnoreParser():
 
     def should_be_ignored(self, filepath):
         for ig in self.ignored_paths:
-            compiled_regex = re.compile('^' + re.escape(ig).replace('\\*', '.*') + '$')
-            if compiled_regex.search(filepath) or compiled_regex.search(filepath.split('/')[-1]):
+            compiled_regex = re.compile(
+                '^' + re.escape(ig).replace('\\*', '.*') + '$'
+            )
+            if compiled_regex.search(filepath) or \
+                    compiled_regex.search(filepath.split('/')[-1]):
                 return True
         return False
 
